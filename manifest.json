@@ -1,0 +1,8 @@
+{
+  "name": "歴史探索マップ",
+  "short_name": "歴史マップ",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0056b3"
+}
