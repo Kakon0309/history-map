@@ -7,24 +7,63 @@ L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
     maxZoom: 18
 }).addTo(map);
 
-// ② 古地図レイヤー（1974年〜1978年の航空写真）
-const oldMap1970s = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/gazo1/{z}/{x}/{y}.jpg', {
-    attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>国土地理院（1974-1978年）</a>",
-    maxZoom: 17,
-    opacity: 0.7
-});
+// ② 古地図レイヤー定義（全国対応・国土地理院）
+const oldMapLayers = {
+    '1945': L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/ort_USA10/{z}/{x}/{y}.png', {
+        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>国土地理院（1945-1950年）</a>",
+        minZoom: 10,
+        maxZoom: 17,
+        opacity: 0.7
+    }),
+    '1961': L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/ort_old10/{z}/{x}/{y}.png', {
+        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>国土地理院（1961-1969年）</a>",
+        minZoom: 10,
+        maxZoom: 17,
+        opacity: 0.7
+    }),
+    '1974': L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/gazo1/{z}/{x}/{y}.jpg', {
+        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>国土地理院（1974-1978年）</a>",
+        maxZoom: 17,
+        opacity: 0.7
+    }),
+    '1979': L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/gazo2/{z}/{x}/{y}.jpg', {
+        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>国土地理院（1979-1983年）</a>",
+        maxZoom: 17,
+        opacity: 0.7
+    }),
+    '1984': L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/gazo3/{z}/{x}/{y}.jpg', {
+        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>国土地理院（1984-1986年）</a>",
+        maxZoom: 17,
+        opacity: 0.7
+    }),
+    '1987': L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/gazo4/{z}/{x}/{y}.jpg', {
+        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>国土地理院（1987-1990年）</a>",
+        maxZoom: 17,
+        opacity: 0.7
+    }),
+    '2004': L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/airphoto/{z}/{x}/{y}.png', {
+        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>国土地理院（簡易空中写真 2004年～）</a>",
+        minZoom: 14,
+        maxZoom: 18,
+        opacity: 0.7
+    }),
+    '2015': L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/nendophoto2015/{z}/{x}/{y}.png', {
+        attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>国土地理院（2015年）</a>",
+        minZoom: 14,
+        maxZoom: 18,
+        opacity: 0.7
+    }),
+    'meiji': L.tileLayer('https://ktgis.net/kjmapw/kjtilemap/kanto/00/{z}/{x}/{y}.png', {
+        attribution: "<a href='https://ktgis.net/kjmapw/' target='_blank'>今昔マップ on the web</a>（埼玉大学 谷謙二）",
+        minZoom: 8,
+        maxZoom: 15,
+        opacity: 0.7,
+        tms: true
+    })
+};
 
-// ③ 古地図レイヤー（明治時代・関東平野迅速測図相当／今昔マップ 1894-1915年）
-const oldMapMeiji = L.tileLayer('https://ktgis.net/kjmapw/kjtilemap/kanto/00/{z}/{x}/{y}.png', {
-    attribution: "<a href='https://ktgis.net/kjmapw/' target='_blank'>今昔マップ on the web</a>（埼玉大学 谷謙二）",
-    minZoom: 8,
-    maxZoom: 15,
-    opacity: 0.7,
-    tms: true  // 今昔マップはタイルの始点が南西のため
-});
-
-// 現在表示中の古地図レイヤー（デフォルトは1970年代）
-let currentOldMapLayer = oldMap1970s;
+// 現在表示中の古地図レイヤー（デフォルトは1974年）
+let currentOldMapLayer = oldMapLayers['1974'];
 currentOldMapLayer.addTo(map);
 
 // ④ スライダーと連動させる処理（選択中の古地図に適用）
@@ -33,14 +72,12 @@ slider.addEventListener('input', function(event) {
     currentOldMapLayer.setOpacity(event.target.value);
 });
 
-// ⑤ ラジオボタンで古地図を切り替え
-document.querySelectorAll('input[name="old-map"]').forEach(function(radio) {
-    radio.addEventListener('change', function() {
-        map.removeLayer(currentOldMapLayer);
-        currentOldMapLayer = this.value === 'meiji' ? oldMapMeiji : oldMap1970s;
-        currentOldMapLayer.setOpacity(slider.value);
-        currentOldMapLayer.addTo(map);
-    });
+// ⑤ セレクトボックスで古地図を切り替え
+document.getElementById('old-map-select').addEventListener('change', function() {
+    map.removeLayer(currentOldMapLayer);
+    currentOldMapLayer = oldMapLayers[this.value];
+    currentOldMapLayer.setOpacity(slider.value);
+    currentOldMapLayer.addTo(map);
 });
 
 /* --- これより下を一番最後に追加 --- */

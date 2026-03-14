@@ -13,8 +13,21 @@
 <body>
     <div id="controls">
         <p style="margin: 0 0 8px 0; font-weight: bold;">古地図の切り替え:</p>
-        <label><input type="radio" name="old-map" value="1970s" checked> 1970年代</label>
-        <label style="margin-left: 12px;"><input type="radio" name="old-map" value="meiji"> 明治時代</label>
+        <select id="old-map-select">
+            <optgroup label="全国（国土地理院）">
+                <option value="1945">1945-1950年</option>
+                <option value="1961">1961-1969年</option>
+                <option value="1974" selected>1974-1978年</option>
+                <option value="1979">1979-1983年</option>
+                <option value="1984">1984-1986年</option>
+                <option value="1987">1987-1990年</option>
+                <option value="2004">2004年～（簡易空中写真）</option>
+                <option value="2015">2015年（年度別空中写真）</option>
+            </optgroup>
+            <optgroup label="関東（今昔マップ）">
+                <option value="meiji">明治時代 1894-1915年</option>
+            </optgroup>
+        </select>
 
         <hr style="margin: 10px 0; border: none; border-top: 1px solid #ccc;">
         <label for="opacity-slider">古地図の透明度:</label><br>
