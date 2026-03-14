@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.web.historymap.kakon0309",
+      "sha256_cert_fingerprints": [
+        "88:47:DB:53:6F:3D:ED:1A:E5:42:B8:B4:6B:10:6E:56:7A:58:9C:84:51:65:7F:BF:6B:AA:E7:F2:A6:D2:AB:E8"
+      ]
+    }
+  }
+]

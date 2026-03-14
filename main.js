@@ -52,13 +52,6 @@ const oldMapLayers = {
         minZoom: 14,
         maxZoom: 18,
         opacity: 0.7
-    }),
-    'meiji': L.tileLayer('https://ktgis.net/kjmapw/kjtilemap/kanto/00/{z}/{x}/{y}.png', {
-        attribution: "<a href='https://ktgis.net/kjmapw/' target='_blank'>今昔マップ on the web</a>（埼玉大学 谷謙二）",
-        minZoom: 8,
-        maxZoom: 15,
-        opacity: 0.7,
-        tms: true
     })
 };
 
@@ -111,3 +104,14 @@ map.on('locationfound', function(e) {
 map.on('locationerror', function(e) {
     alert("位置情報が取得できませんでした。ブラウザの位置情報へのアクセスが許可されているか確認してください。");
 });
+
+// Service Workerの登録
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').then((registration) => {
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, (error) => {
+      console.log('ServiceWorker registration failed: ', error);
+    });
+  });
+}
